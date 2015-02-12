@@ -1,6 +1,6 @@
 package com.peacemiki.android.util.example;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import com.peacemiki.android.util.TaskUtil;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     private final String TAG = MainActivity.class.getName();
 
@@ -22,9 +22,6 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        String foreground = TaskUtil.instance.isApplicationInForeground() ? "Yes" : "No";
-        Log.i(TAG, "Is application is running in foreground? " + foreground);
     }
 
     @Override

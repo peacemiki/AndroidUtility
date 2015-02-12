@@ -12,6 +12,16 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        Global.instance.setApplicationContext(getApplicationContext());
+
         registerActivityLifecycleCallbacks(TaskUtil.instance);
     }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+
+        Global.instance.setApplicationContext(null);
+    }
+
 }
