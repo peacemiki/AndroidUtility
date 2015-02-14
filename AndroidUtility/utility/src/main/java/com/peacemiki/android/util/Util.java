@@ -7,7 +7,7 @@ import com.peacemiki.android.core.Global;
 /**
  * Created by Kevin on 2015. 2. 12..
  */
-public class Calculator {
+public class Util {
     public static int dp2px(float dp) {
         int px = 0;
         DisplayMetrics m = Global.instance.getDisplayMetrics();
