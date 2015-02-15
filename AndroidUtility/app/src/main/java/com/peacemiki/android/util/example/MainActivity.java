@@ -1,6 +1,10 @@
 package com.peacemiki.android.util.example;
 
+<<<<<<< HEAD
+import android.app.Activity;
+=======
 import android.content.Context;
+>>>>>>> feature/ViewHolder
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -19,7 +23,7 @@ import com.peacemiki.android.util.ViewHolder;
 import java.util.Arrays;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     private final String TAG = MainActivity.class.getName();
     private String[] mData = new String[]{
@@ -39,9 +43,6 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        String foreground = TaskUtil.instance.isApplicationInForeground() ? "Yes" : "No";
-        Log.i(TAG, "Is application is running in foreground? " + foreground);
     }
 
     @Override
