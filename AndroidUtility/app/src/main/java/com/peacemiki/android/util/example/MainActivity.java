@@ -1,10 +1,7 @@
 package com.peacemiki.android.util.example;
 
-<<<<<<< HEAD
 import android.app.Activity;
-=======
 import android.content.Context;
->>>>>>> feature/ViewHolder
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
