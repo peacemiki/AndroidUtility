@@ -8,155 +8,40 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-
 public class FileUtil {
-	/**
-	 * 디렉토리 생성
-	 * 
-	 * @return dir
-	 */
 	public static File makeDirectory(String dir_path) {
 		File dir = new File(dir_path);
 		if (!dir.exists()) {
 			dir.mkdirs();
 		} else {
-			Trace.i("dir.exists");
 		}
 
 		return dir;
 	}
 
-	/**
-	 * 파일 생성
-	 * 
-	 * @param dir
-	 * @return file
-	 */
 	public static File makeFile(File dir, String file_path) {
 		File file = null;
-		boolean isSuccess = false;
 		if (dir.isDirectory()) {
 			file = new File(file_path);
 			if (file != null && !file.exists()) {
-				Trace.i("!file.exists");
 				try {
-					isSuccess = file.createNewFile();
+					file.createNewFile();
 				} catch (IOException e) {
 					e.printStackTrace();
 				} finally {
-					Trace.i("파일생성 여부 = " + isSuccess);
 				}
 			} else {
-				Trace.i("file.exists");
 			}
 		}
 		return file;
 	}
 
-	/**
-	 * (dir/file) 절대 경로 얻어오기
-	 * 
-	 * @param file
-	 * @return String
-	 */
-	public static String getAbsolutePath(File file) {
-		return "" + file.getAbsolutePath();
-	}
-
-	/**
-	 * (dir/file) 삭제 하기
-	 * 
-	 * @param file
-	 */
-	public static boolean deleteFile(File file) {
-		boolean result;
-		if (file != null && file.exists()) {
-			file.delete();
-			result = true;
-		} else {
-			result = false;
-		}
-		return result;
-	}
-
-	/**
-	 * 파일여부 체크 하기
-	 * 
-	 * @param file
-	 * @return
-	 */
-	public static boolean isFile(File file) {
-		boolean result;
-		if (file != null && file.exists() && file.isFile()) {
-			result = true;
-		} else {
-			result = false;
-		}
-		return result;
-	}
-
-	/**
-	 * 디렉토리 여부 체크 하기
-	 * 
-	 * @param dir
-	 * @return
-	 */
-	public static boolean isDirectory(File dir) {
-		boolean result;
-		if (dir != null && dir.isDirectory()) {
-			result = true;
-		} else {
-			result = false;
-		}
-		return result;
-	}
-
-	/**
-	 * 파일 존재 여부 확인 하기
-	 * 
-	 * @param file
-	 * @return
-	 */
-	public static boolean isFileExist(File file) {
-		boolean result;
-		if (file != null && file.exists()) {
-			result = true;
-		} else {
-			result = false;
-		}
-		return result;
-	}
-
-	/**
-	 * 파일 이름 바꾸기
-	 * 
-	 * @param file
-	 */
-	public static boolean reNameFile(File file, File new_name) {
-		boolean result;
-		if (file != null && file.exists() && file.renameTo(new_name)) {
-			result = true;
-		} else {
-			result = false;
-		}
-		return result;
-	}
-
-	/**
-	 * 디렉토리에 안에 내용을 보여 준다.
-	 * 
-	 * @param dir
-	 * @return
-	 */
-	public static String[] getList(File dir) {
-		if (dir != null && dir.exists())
-			return dir.list();
-		return null;
-	}
 
 	/**
 	 * 파일에 내용 쓰기
@@ -172,8 +57,7 @@ public class FileUtil {
 			try {
 				fos = new FileOutputStream(file);
 				try {
-					BufferedWriter buw = new BufferedWriter(
-							new OutputStreamWriter(fos, "UTF8"));
+					BufferedWriter buw = new BufferedWriter(new OutputStreamWriter(fos, "UTF8"));
 					buw.write(str);
 					buw.close();
 					fos.close();
@@ -191,26 +75,47 @@ public class FileUtil {
 	}
 
 	/**
-	 * 파일 읽어 오기
-	 * 
-	 * @param file
+	 * Write a byte array to the given file. Writing binary data is
+	 * significantly simpler than reading it.
 	 */
-	public static void readFile(File file) {
-		int readcount = 0;
-		if (file != null && file.exists()) {
+	public static void write(byte[] aInput, String aOutputFileName) {
+		try {
+			OutputStream output = null;
 			try {
-				FileInputStream fis = new FileInputStream(file);
-				readcount = (int) file.length();
-				byte[] buffer = new byte[readcount];
-				fis.read(buffer);
-				for (int i = 0; i < file.length(); i++) {
-					Trace.d("" + buffer[i]);
-				}
-				fis.close();
-			} catch (Exception e) {
-				e.printStackTrace();
+				output = new BufferedOutputStream(new FileOutputStream(aOutputFileName));
+				output.write(aInput);
+			} finally {
+				output.close();
 			}
+		} catch (FileNotFoundException ex) {
+			// log("File not found.");
+		} catch (IOException ex) {
+			// log(ex);
 		}
+	}
+
+	public static byte[] loadFile(File file) throws IOException {
+		InputStream is = new FileInputStream(file);
+
+		long length = file.length();
+		if (length > Integer.MAX_VALUE) {
+			// File is too large
+		}
+		byte[] bytes = new byte[(int) length];
+
+		int offset = 0;
+		int numRead = 0;
+		while (offset < bytes.length && (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
+			offset += numRead;
+		}
+
+		is.close();
+
+		if (offset < bytes.length) {
+			throw new IOException("Could not completely read file " + file.getName());
+		}
+
+		return bytes;
 	}
 
 	/**
@@ -233,8 +138,6 @@ public class FileUtil {
 				}
 				newfos.close();
 				fis.close();
-
-				Trace.i("file copied.");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -246,62 +149,59 @@ public class FileUtil {
 	}
 
 	public static void unzip(String zipFile, String location) throws IOException {
-		int BUFFER_SIZE =4000; 
+		int BUFFER_SIZE = 4000;
 		int size;
 		byte[] buffer = new byte[BUFFER_SIZE];
-		
+
 		try {
-			if ( !location.endsWith("/") ) {
+			if (!location.endsWith("/")) {
 				location += "/";
 			}
 			File f = new File(location);
-			if(!f.isDirectory()) {
+			if (!f.isDirectory()) {
 				f.mkdirs();
 			}
-			
+
 			ZipInputStream zin = new ZipInputStream(new BufferedInputStream(new FileInputStream(zipFile), BUFFER_SIZE));
 			try {
 				ZipEntry ze = null;
 				while ((ze = zin.getNextEntry()) != null) {
 					String path = location + ze.getName();
 					File unzipFile = new File(path);
-		
+
 					if (ze.isDirectory()) {
-						if(!unzipFile.isDirectory()) {
+						if (!unzipFile.isDirectory()) {
 							unzipFile.mkdirs();
 						}
 					} else {
-						//check for and create parent directories if they don't exist
+						// check for and create parent directories if they don't
+						// exist
 						File parentDir = unzipFile.getParentFile();
-						if ( null != parentDir ) {
-							if ( !parentDir.isDirectory() ) {
+						if (null != parentDir) {
+							if (!parentDir.isDirectory()) {
 								parentDir.mkdirs();
 							}
 						}
-						
-						//unzip the file
+
+						// unzip the file
 						FileOutputStream out = new FileOutputStream(unzipFile, false);
 						BufferedOutputStream fout = new BufferedOutputStream(out, BUFFER_SIZE);
 						try {
-							while ( (size = zin.read(buffer, 0, BUFFER_SIZE)) != -1 ) {
+							while ((size = zin.read(buffer, 0, BUFFER_SIZE)) != -1) {
 								fout.write(buffer, 0, size);
 							}
 
 							zin.closeEntry();
-						}
-						finally {
+						} finally {
 							fout.flush();
 							fout.close();
 						}
 					}
 				}
-			}
-			finally {
+			} finally {
 				zin.close();
 			}
-		}
-		catch (Exception e) {
-			Trace.e("Unzip exception" + e);
+		} catch (Exception e) {
 		}
 	}
 }
