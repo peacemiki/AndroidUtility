@@ -31,4 +31,9 @@ public enum Global {
 
         return mDisplayMetrics;
     }
+
+    public String getApplicationName() {
+        int stringId = mApplicationContext.getApplicationInfo().labelRes;
+        return mApplicationContext.getString(stringId);
+    }
 }
