@@ -6,17 +6,42 @@ import com.peacemiki.android.core.Global;
 
 public class Trace {
 	private final static String TAG = Global.instance.getApplicationName();
-	private final static int TRACE_LEVEL_ERROR = 0;
-	private final static int TRACE_LEVEL_WARNING = 1;
-	private final static int TRACE_LEVEL_INFORMATION = 2;
-	private final static int TRACE_LEVEL_DEBUG = 3;
-	private final static int TRACE_LEVEL_VERBOSE = 4;
+
+    private static enum Level {
+        ERROR(0),
+        WARNING(1),
+        INFORMATION(2),
+        DEBUG(3),
+        VERBOSE(4),
+        DEVELOPMENT(5);
+
+        private int identity;
+
+        Level(int identity) {
+            this.identity = identity;
+        }
+
+        public boolean isAllow(Level filterLevel) {
+            if(filterLevel.identity <= this.identity)
+                return true;
+
+            return false;
+        }
+    }
 	
-	private final static int TRACE_LEVEL = TRACE_LEVEL_VERBOSE;
+	private static Level mFilterLevel = Level.DEVELOPMENT;
+
+    public static void setFilterLevel(Level level) {
+        mFilterLevel = level;
+    }
+
+    public static Level getFilterLevel() {
+        return mFilterLevel;
+    }
 
 	public static void e( String str )
 	{
-		if(TRACE_LEVEL >= TRACE_LEVEL_ERROR) {
+		if(Level.ERROR.isAllow(mFilterLevel)) {
 			Exception e = new Exception();
 			StackTraceElement element = e.getStackTrace()[1];
 			Log.e( TAG, String.format("[%s %s] %s", element.getFileName(), element.getLineNumber(), str));
@@ -25,7 +50,7 @@ public class Trace {
 
 	public static void w( String str )
 	{
-		if(TRACE_LEVEL >= TRACE_LEVEL_WARNING) {
+		if(Level.ERROR.isAllow(mFilterLevel)) {
 			Exception e = new Exception();
 			StackTraceElement element = e.getStackTrace()[1];
 			Log.w( TAG, String.format("[%s %s] %s", element.getFileName(), element.getLineNumber(), str));
@@ -34,7 +59,7 @@ public class Trace {
 	
 	public static void w( Exception e )
 	{
-		if(TRACE_LEVEL >= TRACE_LEVEL_WARNING) {
+        if(Level.WARNING.isAllow(mFilterLevel)) {
 			StackTraceElement element = e.getStackTrace()[1];
 			Log.w( TAG, String.format("[%s %s %s]", element.getFileName(), element.getMethodName(), element.getLineNumber()));
 		}
@@ -42,7 +67,7 @@ public class Trace {
 	
 	public static void i( String str )
 	{
-		if(TRACE_LEVEL >= TRACE_LEVEL_INFORMATION) {
+        if(Level.INFORMATION.isAllow(mFilterLevel)) {
 			Exception e = new Exception();
 			StackTraceElement element = e.getStackTrace()[1];
 			Log.i( TAG, String.format("[%s %s] %s", element.getFileName(), element.getLineNumber(), str));
@@ -51,8 +76,8 @@ public class Trace {
 
 	public static void d( String str )
 	{
-		
-		if(TRACE_LEVEL >= TRACE_LEVEL_DEBUG) {
+
+        if(Level.DEBUG.isAllow(mFilterLevel)) {
 			Exception e = new Exception();
 			StackTraceElement element = e.getStackTrace()[1];
 			Log.d( TAG, String.format("[%s %s] %s", element.getFileName(), element.getLineNumber(), str));
@@ -61,7 +86,7 @@ public class Trace {
 
 	public static void v( String str )
 	{
-		if(TRACE_LEVEL >= TRACE_LEVEL_VERBOSE) {
+        if(Level.VERBOSE.isAllow(mFilterLevel)) {
 			Exception e = new Exception();
 			StackTraceElement element = e.getStackTrace()[1];
 			Log.v( TAG, String.format("[%s %s] %s", element.getFileName(), element.getLineNumber(), str));
@@ -70,7 +95,7 @@ public class Trace {
 	
 	public static void dev( String str )
 	{
-		if(TRACE_LEVEL >= TRACE_LEVEL_WARNING) {
+        if(Level.DEVELOPMENT.isAllow(mFilterLevel)) {
 			Exception e = new Exception();
 			StackTraceElement element = e.getStackTrace()[1];
 			Log.e( TAG, String.format("[%s %s] %s", element.getFileName(), element.getLineNumber(), str));
