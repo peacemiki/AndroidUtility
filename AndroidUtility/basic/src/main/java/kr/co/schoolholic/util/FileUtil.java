@@ -1,4 +1,4 @@
-package com.peacemiki.android.util;
+package kr.co.schoolholic.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

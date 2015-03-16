@@ -1,8 +1,9 @@
-package com.peacemiki.android.core;
+package kr.co.schoolholic.core;
 
 import android.app.Application;
 
-import com.peacemiki.android.util.TaskUtil;
+import kr.co.schoolholic.util.TaskUtil;
+
 
 /**
  * Created by kevin on 15. 2. 11..

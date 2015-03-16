@@ -1,23 +1,21 @@
-package com.peacemiki.android.util.example;
+package kr.co.schoolholic.basic;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.peacemiki.android.util.TaskUtil;
-import com.peacemiki.android.util.ViewHolder;
-
 import java.util.Arrays;
+
+import kr.co.schoolholic.util.TaskUtil;
+import kr.co.schoolholic.util.ViewHolder;
 
 
 public class MainActivity extends Activity {
@@ -57,22 +55,6 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
     private class CustomAdapter extends ArrayAdapter<String> {
         private String[] mData;

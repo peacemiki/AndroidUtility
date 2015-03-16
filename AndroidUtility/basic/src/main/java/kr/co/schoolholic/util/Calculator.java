@@ -1,13 +1,13 @@
-package com.peacemiki.android.util;
+package kr.co.schoolholic.util;
 
 import android.util.DisplayMetrics;
 
-import com.peacemiki.android.core.Global;
+import kr.co.schoolholic.core.Global;
 
 /**
  * Created by Kevin on 2015. 2. 12..
  */
-public class Util {
+public class Calculator {
     public static int dp2px(float dp) {
         int px = 0;
         DisplayMetrics m = Global.instance.getDisplayMetrics();

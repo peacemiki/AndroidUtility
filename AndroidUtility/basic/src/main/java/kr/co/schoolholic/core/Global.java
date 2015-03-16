@@ -1,4 +1,4 @@
-package com.peacemiki.android.core;
+package kr.co.schoolholic.core;
 
 import android.content.Context;
 import android.util.DisplayMetrics;

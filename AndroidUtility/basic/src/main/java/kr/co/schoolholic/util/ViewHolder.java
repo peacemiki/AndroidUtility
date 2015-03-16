@@ -1,4 +1,4 @@
-package com.peacemiki.android.util;
+package kr.co.schoolholic.util;
 
 import android.util.SparseArray;
 import android.view.View;

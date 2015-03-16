@@ -1,4 +1,4 @@
-package com.peacemiki.android.util;
+package kr.co.schoolholic.util;
 
 import android.app.Activity;
 import android.app.Application;

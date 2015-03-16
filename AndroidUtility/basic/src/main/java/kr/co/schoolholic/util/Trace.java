@@ -1,8 +1,8 @@
-package com.peacemiki.android.util;
+package kr.co.schoolholic.util;
 
 import android.util.Log;
 
-import com.peacemiki.android.core.Global;
+import kr.co.schoolholic.core.Global;
 
 public class Trace {
 	private final static String TAG = Global.instance.getApplicationName();
@@ -12,8 +12,7 @@ public class Trace {
         WARNING(1),
         INFORMATION(2),
         DEBUG(3),
-        VERBOSE(4),
-        DEVELOPMENT(5);
+        VERBOSE(4);
 
         private int identity;
 
@@ -27,7 +26,7 @@ public class Trace {
         }
     }
 	
-	private static Level mFilterLevel = Level.DEVELOPMENT;
+	private static Level mFilterLevel = Level.VERBOSE;
 
     public static void setFilterLevel(Level level) {
         mFilterLevel = level;
@@ -88,15 +87,6 @@ public class Trace {
 			Exception e = new Exception();
 			StackTraceElement element = e.getStackTrace()[1];
 			Log.v( TAG, String.format("[%s %s] %s", element.getFileName(), element.getLineNumber(), str));
-		}
-	}
-	
-	public static void dev( String str )
-	{
-        if(Level.DEVELOPMENT.isAllow(mFilterLevel)) {
-			Exception e = new Exception();
-			StackTraceElement element = e.getStackTrace()[1];
-			Log.e( TAG, String.format("[%s %s] %s", element.getFileName(), element.getLineNumber(), str));
 		}
 	}
 }
