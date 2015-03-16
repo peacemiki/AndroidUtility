@@ -22,10 +22,8 @@ public class Trace {
         }
 
         public boolean isAllow(Level filterLevel) {
-            if(filterLevel.identity <= this.identity)
-                return true;
+            return filterLevel.identity <= this.identity;
 
-            return false;
         }
     }
 	
