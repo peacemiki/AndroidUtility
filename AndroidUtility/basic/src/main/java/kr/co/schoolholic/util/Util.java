@@ -1,13 +1,22 @@
 package kr.co.schoolholic.util;
 
+
+import android.content.ContentResolver;
+import android.content.Context;
+import android.net.Uri;
 import android.util.DisplayMetrics;
 
 import kr.co.schoolholic.core.Global;
 
-/**
- * Created by Kevin on 2015. 2. 12..
- */
-public class Calculator {
+public class Util {
+    public static Uri ResourceToUri (int resID) {
+        Context context = Global.instance.getApplicationContext();
+        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+                context.getResources().getResourcePackageName(resID) + '/' +
+                context.getResources().getResourceTypeName(resID) + '/' +
+                context.getResources().getResourceEntryName(resID) );
+    }
+
     public static int dp2px(float dp) {
         int px = 0;
         DisplayMetrics m = Global.instance.getDisplayMetrics();
