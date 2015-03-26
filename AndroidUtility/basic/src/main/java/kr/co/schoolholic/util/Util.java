@@ -9,14 +9,6 @@ import android.util.DisplayMetrics;
 import kr.co.schoolholic.core.Global;
 
 public class Util {
-    public static Uri ResourceToUri (int resID) {
-        Context context = Global.instance.getApplicationContext();
-        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
-                context.getResources().getResourcePackageName(resID) + '/' +
-                context.getResources().getResourceTypeName(resID) + '/' +
-                context.getResources().getResourceEntryName(resID) );
-    }
-
     public static int dp2px(float dp) {
         int px = 0;
         DisplayMetrics m = Global.instance.getDisplayMetrics();
